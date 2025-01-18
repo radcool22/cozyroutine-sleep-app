@@ -2,7 +2,10 @@ function Navbar({ currentUser, onLogout }) {
     return (
         <div data-name="navbar" className="bg-white shadow-md">
             <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-                <h1 data-name="logo" className="text-2xl font-bold text-purple-800">Cozy Routine</h1>
+                <h1 data-name="logo" className="text-2xl font-bold text-purple-800">
+                    <span data-name="logo-icon" className="mr-2">💤</span>
+                    Cozy Routine
+                </h1>
                 <nav data-name="nav-links" className="flex items-center gap-6">
                     <a href="#" className="nav-link py-2" data-name="home-link">Home</a>
                     {currentUser ? (

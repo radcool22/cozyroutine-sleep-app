@@ -6,11 +6,16 @@ body {
 
 .hero-section {
     background: linear-gradient(135deg, #9c6bff 0%, #6b4ce6 100%);
-    min-height: 60vh;
+    min-height: 50vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10;
+    padding-bottom: 0; 
 }
 
 .container {
     max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 1rem;
+    margin-top: 0 auto;
+    padding-top: 0 1rem;
 }
