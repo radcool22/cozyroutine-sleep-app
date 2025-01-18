@@ -1,0 +1,22 @@
+.nav-link {
+    color: #2d1b69;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+    color: #6b4ce6;
+}
+
+.btn-primary {
+    background-color: #6b4ce6;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #5a3cd4;
+}

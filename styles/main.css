@@ -1,0 +1,16 @@
+body {
+    background-color: #f8f5ff;
+    color: #2d1b69;
+    font-family: 'Arial', sans-serif;
+}
+
+.hero-section {
+    background: linear-gradient(135deg, #9c6bff 0%, #6b4ce6 100%);
+    min-height: 60vh;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
