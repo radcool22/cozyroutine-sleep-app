@@ -1,4 +1,4 @@
-function Navbar({ currentUser, onLogout }) {
+function Navbar({ currentUser, onLogout, onUpdateUser }) {
     return (
         <div data-name="navbar" className="bg-white shadow-md">
             <div className="container mx-auto px-4 py-4 flex justify-between items-center">
@@ -11,6 +11,10 @@ function Navbar({ currentUser, onLogout }) {
                     {currentUser ? (
                         <div data-name="user-nav" className="flex items-center gap-4">
                             <a href="#dashboard" className="nav-link py-2" data-name="dashboard-link">Dashboard</a>
+                            <SettingsDropdown 
+                                currentUser={currentUser}
+                                onUpdateUser={onUpdateUser}
+                            />
                             <button 
                                 onClick={onLogout}
                                 className="nav-link py-2"

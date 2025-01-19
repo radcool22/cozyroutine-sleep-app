@@ -5,7 +5,6 @@ function App() {
     React.useEffect(() => {
         const handleHashChange = () => {
             const hash = window.location.hash.slice(1);
-            // If no hash is present, default to home
             if (!hash) {
                 window.location.hash = 'home';
                 return;
@@ -20,7 +19,6 @@ function App() {
     }, []);
 
     React.useEffect(() => {
-        // Redirect to home if accessing auth page while logged in
         if (currentUser && currentPage === 'auth') {
             window.location.hash = 'dashboard';
         }
@@ -44,15 +42,32 @@ function App() {
         }
     };
 
+    const handleUpdateUser = (userData) => {
+        try {
+            setCurrentUser(prev => ({
+                ...prev,
+                ...userData
+            }));
+        } catch (error) {
+            reportError(error);
+        }
+    };
+
     return (
-        <div data-name="app">
-            <Navbar currentUser={currentUser} onLogout={handleLogout} />
-            {currentPage === 'home' && <Home />}
-            {currentPage === 'auth' && !currentUser && <Auth onLogin={handleLogin} />}
-            {currentPage === 'dashboard' && (
-                currentUser ? <Dashboard currentUser={currentUser} /> : window.location.hash = 'auth'
-            )}
-        </div>
+        <ThemeProvider>
+            <div data-name="app" className="transition-colors duration-200">
+                <Navbar 
+                    currentUser={currentUser} 
+                    onLogout={handleLogout}
+                    onUpdateUser={handleUpdateUser}
+                />
+                {currentPage === 'home' && <Home />}
+                {currentPage === 'auth' && !currentUser && <Auth onLogin={handleLogin} />}
+                {currentPage === 'dashboard' && (
+                    currentUser ? <Dashboard currentUser={currentUser} /> : window.location.hash = 'auth'
+                )}
+            </div>
+        </ThemeProvider>
     );
 }
 

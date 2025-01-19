@@ -6,6 +6,7 @@ body {
 
 .hero-section {
     background: linear-gradient(135deg, #9c6bff 0%, #6b4ce6 100%);
+    background: linear-gradient(135deg, #9c6bff 0%, #6b4ce6 100%);
     min-height: 50vh;
     display: flex;
     justify-content: center;
@@ -16,6 +17,61 @@ body {
 
 .container {
     max-width: 1200px;
-    margin-top: 0 auto;
-    padding-top: 0 1rem;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+/* Dark mode styles */
+.dark body {
+    background-color: #1a1a1a;
+    color: #ffffff;
+}
+
+.dark .bg-white {
+    background-color: #2d2d2d;
+}
+
+.dark .text-gray-600 {
+    color: #d1d1d1;
+}
+
+.dark .text-gray-700 {
+    color: #ffffff;
+}
+
+.dark .hover\:bg-gray-50:hover {
+    background-color: #3d3d3d;
+}
+
+.dark .hover\:bg-gray-100:hover {
+    background-color: #3d3d3d;
+}
+
+.dark .border {
+    border-color: #404040;
+}
+
+.dark .border-t {
+    border-color: #404040;
+}
+
+.dark .shadow-md {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+}
+
+.dark .bg-gray-50 {
+    background-color: #2d2d2d;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.animate-spin {
+    animation: spin 1s linear infinite;
 }
