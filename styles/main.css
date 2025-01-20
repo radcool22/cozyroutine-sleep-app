@@ -21,7 +21,6 @@ body {
     padding: 0 1rem;
 }
 
-/* Dark mode styles */
 .dark body {
     background-color: #1a1a1a;
     color: #ffffff;

@@ -1,4 +1,14 @@
 function Navbar({ currentUser, onLogout, onUpdateUser }) {
+    const [currentPath, setCurrentPath] = React.useState(window.location.hash);
+
+    React.useEffect(() => {
+        const handleHashChange = () => {
+            setCurrentPath(window.location.hash);
+        };
+        window.addEventListener('hashchange', handleHashChange);
+        return () => window.removeEventListener('hashchange', handleHashChange);
+    }, []);
+
     return (
         <div data-name="navbar" className="bg-white shadow-md">
             <div className="container mx-auto px-4 py-4 flex justify-between items-center">
@@ -14,16 +24,17 @@ function Navbar({ currentUser, onLogout, onUpdateUser }) {
                             <SettingsDropdown 
                                 currentUser={currentUser}
                                 onUpdateUser={onUpdateUser}
+                                onLogout={onLogout}
                             />
-                            <button 
-                                onClick={onLogout}
-                                className="nav-link py-2"
-                                data-name="logout-button">
-                                Logout
-                            </button>
                         </div>
                     ) : (
-                        <a href="#auth" className="btn-primary" data-name="login-link">Login</a>
+                        <a 
+                            href="#auth" 
+                            className={`nav-link py-2 ${currentPath === '#auth' ? 'text-purple-600' : 'text-gray-800'}`}
+                            data-name="login-link"
+                        >
+                            Login
+                        </a>
                     )}
                 </nav>
             </div>

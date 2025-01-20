@@ -38,6 +38,14 @@ function Dashboard({ currentUser }) {
         }
     };
 
+    const handleDownloadPDF = (routinePair) => {
+        try {
+            generatePDF(routinePair);
+        } catch (error) {
+            reportError(error);
+        }
+    };
+
     const formatDate = (dateString) => {
         return new Date(dateString).toLocaleDateString('en-US', {
             year: 'numeric',
@@ -50,11 +58,13 @@ function Dashboard({ currentUser }) {
         <div data-name="dashboard" className="container mx-auto py-8">
             <div data-name="dashboard-header" className="flex justify-between items-center mb-8">
                 <h2 className="text-3xl font-bold">Your Sleep Routines</h2>
-                <Button 
-                    onClick={() => setIsCreating(true)}
-                    data-name="create-routine-button">
-                    Create New Routine
-                </Button>
+                {routinePairs.length > 0 && (
+                    <Button 
+                        onClick={() => setIsCreating(true)}
+                        data-name="create-routine-button">
+                        Create New Routine
+                    </Button>
+                )}
             </div>
 
             {isGenerating && (
@@ -71,20 +81,35 @@ function Dashboard({ currentUser }) {
                         className="bg-white rounded-lg shadow-md overflow-hidden"
                         data-name="routine-pair-item"
                     >
-                        <div 
-                            className="p-4 cursor-pointer hover:bg-gray-50 flex justify-between items-center"
-                            onClick={() => setSelectedPairId(selectedPairId === pair.id ? null : pair.id)}
-                        >
-                            <div>
-                                <h3 className="text-lg font-semibold">
-                                    Routine for {pair.childAge} year old
-                                    {pair.childGender && ` (${pair.childGender})`}
-                                </h3>
-                                <p className="text-sm text-gray-600">
-                                    Created on {formatDate(pair.createdAt)}
-                                </p>
+                        <div className="p-4 cursor-pointer hover:bg-gray-50">
+                            <div 
+                                className="flex justify-between items-center"
+                                onClick={() => setSelectedPairId(selectedPairId === pair.id ? null : pair.id)}
+                            >
+                                <div>
+                                    <h3 className="text-lg font-semibold">
+                                        Routine for {pair.childAge} year old
+                                        {pair.childGender && ` (${pair.childGender})`}
+                                    </h3>
+                                    <p className="text-sm text-gray-600">
+                                        Created on {formatDate(pair.createdAt)}
+                                    </p>
+                                </div>
+                                <div className="flex items-center gap-4">
+                                    <button
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            handleDownloadPDF(pair);
+                                        }}
+                                        className="text-purple-600 hover:text-purple-800 transition-colors"
+                                        title="Download PDF"
+                                        data-name="download-pdf-button"
+                                    >
+                                        <i className="fas fa-download"></i>
+                                    </button>
+                                    <i className={`fas fa-chevron-${selectedPairId === pair.id ? 'up' : 'down'} text-gray-400`}></i>
+                                </div>
                             </div>
-                            <i className={`fas fa-chevron-${selectedPairId === pair.id ? 'up' : 'down'} text-gray-400`}></i>
                         </div>
 
                         {selectedPairId === pair.id && (
