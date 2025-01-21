@@ -1,6 +1,6 @@
 async function generateRoutine(userInput) {
     try {
-        const OPENAI_API_KEY = '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';
+        const OPENAI_API_KEY = '';
         const systemPrompt = `You are an expert in children's sleep patterns and routines. Create a personalized nighttime routine that promotes healthy sleep habits.
 
 Key guidelines to follow:
