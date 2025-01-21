@@ -1,18 +1,66 @@
 .nav-link {
     font-weight: 600;
     transition: color 0.3s ease;
+    position: relative;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #6b4ce6;
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.nav-link:hover::after {
+    transform: scaleX(1);
 }
 
 .nav-link:hover {
     color: #6b4ce6;
 }
 
+/* Active state for home and auth pages */
+.nav-link.active[data-name="home-link"],
+.nav-link.active[data-name="login-link"] {
+    color: #6b4ce6;
+}
+
+.nav-link.active[data-name="home-link"]::after,
+.nav-link.active[data-name="login-link"]::after {
+    transform: scaleX(1);
+}
+
+/* Active state for dashboard - keeping it black */
+.nav-link.active[data-name="dashboard-link"] {
+    color: inherit;
+}
+
+.nav-link.active[data-name="dashboard-link"]::after {
+    transform: scaleX(0);
+}
+
+/* Dark mode overrides */
 .dark .nav-link {
     color: #ffffff;
 }
 
-.dark .nav-link:hover {
+.dark .nav-link:hover,
+.dark .nav-link.active[data-name="home-link"],
+.dark .nav-link.active[data-name="login-link"] {
     color: #9c6bff;
+}
+
+.dark .nav-link::after {
+    background-color: #9c6bff;
+}
+
+.dark .nav-link.active[data-name="dashboard-link"] {
+    color: #ffffff;
 }
 
 .dark .text-gray-800 {

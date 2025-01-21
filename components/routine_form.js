@@ -1,5 +1,6 @@
 function RoutineForm({ onSubmit, onClose }) {
     const [formData, setFormData] = React.useState({
+        name: '',
         age: '',
         gender: '',
         currentRoutine: Array(3).fill({ time: '', activity: '' })
@@ -72,8 +73,8 @@ function RoutineForm({ onSubmit, onClose }) {
         e.preventDefault();
         try {
             // Validate required fields
-            if (!formData.age) {
-                alert('Please enter age');
+            if (!formData.name || !formData.age) {
+                alert('Please enter name and age');
                 return;
             }
             
@@ -97,6 +98,21 @@ function RoutineForm({ onSubmit, onClose }) {
                 <h3 className="text-2xl font-bold mb-4">Create New Routine</h3>
                 <form onSubmit={handleSubmit}>
                     <div className="space-y-4">
+                        <div>
+                            <label className="block text-sm font-medium mb-1">
+                                Child's Name <span className="text-red-500">*</span>
+                            </label>
+                            <input
+                                type="text"
+                                name="name"
+                                value={formData.name}
+                                onChange={handleChange}
+                                className="w-full px-3 py-2 border rounded-lg"
+                                required
+                                data-name="name-input"
+                            />
+                        </div>
+
                         <div>
                             <label className="block text-sm font-medium mb-1">
                                 Age <span className="text-red-500">*</span>
@@ -125,7 +141,7 @@ function RoutineForm({ onSubmit, onClose }) {
                                 className="w-full px-3 py-2 border rounded-lg"
                                 data-name="gender-select"
                             >
-                                <option value="" disabled>Select a gender</option>
+                                <option value="">Select a gender</option>
                                 <option value="male">Male</option>
                                 <option value="female">Female</option>
                                 <option value="notSpecified">Prefer not to say</option>
@@ -145,7 +161,6 @@ function RoutineForm({ onSubmit, onClose }) {
                                         required
                                         data-name={`time-select-${index}`}
                                     >
-                                        <option value="">Select time</option>
                                         {timeOptions.map(time => (
                                             <option key={time} value={time}>{time}</option>
                                         ))}

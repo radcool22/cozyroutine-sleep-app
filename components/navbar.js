@@ -3,7 +3,7 @@ function Navbar({ currentUser, onLogout, onUpdateUser }) {
 
     React.useEffect(() => {
         const handleHashChange = () => {
-            setCurrentPath(window.location.hash);
+            setCurrentPath(window.location.hash || '#');
         };
         window.addEventListener('hashchange', handleHashChange);
         return () => window.removeEventListener('hashchange', handleHashChange);
@@ -17,10 +17,22 @@ function Navbar({ currentUser, onLogout, onUpdateUser }) {
                     Cozy Routine
                 </h1>
                 <nav data-name="nav-links" className="flex items-center gap-6">
-                    <a href="#" className="nav-link py-2" data-name="home-link">Home</a>
+                    <a 
+                        href="#" 
+                        className={`nav-link ${currentPath === '#' ? 'active' : ''}`}
+                        data-name="home-link"
+                    >
+                        Home
+                    </a>
                     {currentUser ? (
                         <div data-name="user-nav" className="flex items-center gap-4">
-                            <a href="#dashboard" className="nav-link py-2" data-name="dashboard-link">Dashboard</a>
+                            <a 
+                                href="#dashboard" 
+                                className={`nav-link ${currentPath === '#dashboard' ? 'active' : ''}`}
+                                data-name="dashboard-link"
+                            >
+                                Dashboard
+                            </a>
                             <SettingsDropdown 
                                 currentUser={currentUser}
                                 onUpdateUser={onUpdateUser}
@@ -30,7 +42,7 @@ function Navbar({ currentUser, onLogout, onUpdateUser }) {
                     ) : (
                         <a 
                             href="#auth" 
-                            className={`nav-link py-2 ${currentPath === '#auth' ? 'text-purple-600' : 'text-gray-800'}`}
+                            className={`nav-link ${currentPath === '#auth' ? 'active' : ''}`}
                             data-name="login-link"
                         >
                             Login

@@ -21,6 +21,7 @@ function Dashboard({ currentUser }) {
             
             const newPair = {
                 id: Date.now(),
+                childName: formData.name,
                 childAge: formData.age,
                 childGender: formData.gender,
                 createdAt: new Date().toISOString(),
@@ -88,8 +89,8 @@ function Dashboard({ currentUser }) {
                             >
                                 <div>
                                     <h3 className="text-lg font-semibold">
-                                        Routine for {pair.childAge} year old
-                                        {pair.childGender && ` (${pair.childGender})`}
+                                        Routine for {pair.childName} ({pair.childAge} year old
+                                        {pair.childGender && ` ${pair.childGender}`})
                                     </h3>
                                     <p className="text-sm text-gray-600">
                                         Created on {formatDate(pair.createdAt)}
