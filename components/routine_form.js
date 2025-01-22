@@ -3,7 +3,7 @@ function RoutineForm({ onSubmit, onClose }) {
         name: '',
         age: '',
         gender: '',
-        currentRoutine: Array(3).fill({ time: '', activity: '' })
+        currentRoutine: Array(3).fill({ time: '7:00 PM', activity: '' })
     });
 
     const timeOptions = [
@@ -16,7 +16,6 @@ function RoutineForm({ onSubmit, onClose }) {
     ];
 
     const activityOptions = [
-        "Choose activity",
         "Eat dinner",
         "Brushing teeth",
         "Taking a shower",
@@ -55,7 +54,7 @@ function RoutineForm({ onSubmit, onClose }) {
     const addRoutineStep = () => {
         setFormData(prev => ({
             ...prev,
-            currentRoutine: [...prev.currentRoutine, { time: '', activity: '' }]
+            currentRoutine: [...prev.currentRoutine, { time: '7:00 PM', activity: '' }]
         }));
     };
 
@@ -79,9 +78,9 @@ function RoutineForm({ onSubmit, onClose }) {
             }
             
             // Validate routine steps
-            const isRoutineValid = formData.currentRoutine.every(step => step.time && step.activity && step.activity !== "Choose activity");
+            const isRoutineValid = formData.currentRoutine.every(step => step.time && step.activity);
             if (!isRoutineValid) {
-                alert('Please complete all routine steps');
+                alert('Please select an activity for each routine step');
                 return;
             }
 
@@ -172,6 +171,7 @@ function RoutineForm({ onSubmit, onClose }) {
                                         required
                                         data-name={`activity-select-${index}`}
                                     >
+                                        <option value="">Select an activity</option>
                                         {activityOptions.map(activity => (
                                             <option key={activity} value={activity}>{activity}</option>
                                         ))}

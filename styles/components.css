@@ -24,23 +24,23 @@
     color: #6b4ce6;
 }
 
-/* Active state for home and auth pages */
-.nav-link.active[data-name="home-link"],
-.nav-link.active[data-name="login-link"] {
+/* Active state for home page */
+.nav-link.active[data-name="home-link"] {
     color: #6b4ce6;
 }
 
-.nav-link.active[data-name="home-link"]::after,
-.nav-link.active[data-name="login-link"]::after {
+.nav-link.active[data-name="home-link"]::after {
     transform: scaleX(1);
 }
 
-/* Active state for dashboard - keeping it black */
-.nav-link.active[data-name="dashboard-link"] {
+/* Active state for dashboard and login - keeping them black */
+.nav-link.active[data-name="dashboard-link"],
+.nav-link.active[data-name="login-link"] {
     color: inherit;
 }
 
-.nav-link.active[data-name="dashboard-link"]::after {
+.nav-link.active[data-name="dashboard-link"]::after,
+.nav-link.active[data-name="login-link"]::after {
     transform: scaleX(0);
 }
 
@@ -50,8 +50,7 @@
 }
 
 .dark .nav-link:hover,
-.dark .nav-link.active[data-name="home-link"],
-.dark .nav-link.active[data-name="login-link"] {
+.dark .nav-link.active[data-name="home-link"] {
     color: #9c6bff;
 }
 
@@ -59,7 +58,8 @@
     background-color: #9c6bff;
 }
 
-.dark .nav-link.active[data-name="dashboard-link"] {
+.dark .nav-link.active[data-name="dashboard-link"],
+.dark .nav-link.active[data-name="login-link"] {
     color: #ffffff;
 }
 

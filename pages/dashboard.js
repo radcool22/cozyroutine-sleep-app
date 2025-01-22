@@ -3,6 +3,7 @@ function Dashboard({ currentUser }) {
     const [isCreating, setIsCreating] = React.useState(false);
     const [isGenerating, setIsGenerating] = React.useState(false);
     const [selectedPairId, setSelectedPairId] = React.useState(null);
+    const [trackingRoutine, setTrackingRoutine] = React.useState(null);
 
     const createRoutine = async (formData) => {
         try {
@@ -54,6 +55,13 @@ function Dashboard({ currentUser }) {
             day: 'numeric'
         });
     };
+
+    if (trackingRoutine) {
+        return <RoutineTracker 
+            routinePair={trackingRoutine} 
+            onBack={() => setTrackingRoutine(null)}
+        />;
+    }
 
     return (
         <div data-name="dashboard" className="container mx-auto py-8">
@@ -155,6 +163,17 @@ function Dashboard({ currentUser }) {
                                             ))}
                                         </ul>
                                     </div>
+                                </div>
+
+                                <div className="mt-6 flex justify-center">
+                                    <button
+                                        onClick={() => setTrackingRoutine(pair)}
+                                        className="bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700 transition-colors flex items-center gap-2"
+                                        data-name="start-tracking-button"
+                                    >
+                                        <i className="fas fa-calendar-check"></i>
+                                        Start Tracking This Routine
+                                    </button>
                                 </div>
                             </div>
                         )}
