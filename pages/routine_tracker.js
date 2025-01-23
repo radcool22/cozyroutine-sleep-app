@@ -2,6 +2,8 @@ function RoutineTracker({ routinePair, onBack }) {
     const [selectedMonth, setSelectedMonth] = React.useState(new Date());
     const [trackingData, setTrackingData] = React.useState({});
     const [showRoutine, setShowRoutine] = React.useState(false);
+    const [coins, setCoins] = React.useState(0);
+    const [showCoinAnimation, setShowCoinAnimation] = React.useState(null);
 
     const getDaysInMonth = (date) => {
         const year = date.getFullYear();
@@ -13,6 +15,19 @@ function RoutineTracker({ routinePair, onBack }) {
     const handleTrackDay = (date, followed) => {
         try {
             const dateStr = date.toISOString().split('T')[0];
+            const wasFollowed = trackingData[dateStr];
+            
+            // Only add coins if changing from not followed/undefined to followed
+            if (followed && !wasFollowed) {
+                setCoins(prev => prev + 1);
+                setShowCoinAnimation(dateStr);
+                setTimeout(() => setShowCoinAnimation(null), 1500);
+            }
+            // Remove coin if changing from followed to not followed
+            else if (!followed && wasFollowed === true) {
+                setCoins(prev => Math.max(0, prev - 1));
+            }
+
             setTrackingData(prev => ({
                 ...prev,
                 [dateStr]: followed
@@ -32,18 +47,17 @@ function RoutineTracker({ routinePair, onBack }) {
     };
 
     const changeMonth = (increment) => {
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
+        const routineDate = new Date(routinePair.createdAt);
+        const routineMonth = routineDate.getMonth();
+        const routineYear = routineDate.getFullYear();
 
         setSelectedMonth(prev => {
             const newDate = new Date(prev);
             newDate.setMonth(prev.getMonth() + increment);
             
-            // Don't allow going to past months
+            // Don't allow going before the routine creation month
             if (increment < 0) {
-                const currentMonth = today.getMonth();
-                const currentYear = today.getFullYear();
-                if (newDate.getMonth() < currentMonth && newDate.getFullYear() <= currentYear) {
+                if (newDate.getMonth() < routineMonth && newDate.getFullYear() <= routineYear) {
                     return prev;
                 }
             }
@@ -60,16 +74,72 @@ function RoutineTracker({ routinePair, onBack }) {
     const isPastDate = (date) => {
         const today = new Date();
         today.setHours(0, 0, 0, 0);
-        return date < today;
+        date.setHours(0, 0, 0, 0);
+        return date <= today;
+    };
+
+    const isTrackableDate = (date) => {
+        const routineDate = new Date(routinePair.createdAt);
+        routineDate.setHours(0, 0, 0, 0);
+        date.setHours(0, 0, 0, 0);
+        return date >= routineDate;
     };
 
     const canNavigateToPrevMonth = () => {
-        const today = new Date();
-        const currentMonth = today.getMonth();
-        const currentYear = today.getFullYear();
+        const routineDate = new Date(routinePair.createdAt);
+        const routineMonth = routineDate.getMonth();
+        const routineYear = routineDate.getFullYear();
         
-        return selectedMonth.getMonth() > currentMonth || 
-               selectedMonth.getFullYear() > currentYear;
+        return selectedMonth.getMonth() > routineMonth || 
+               selectedMonth.getFullYear() > routineYear;
+    };
+
+    const renderDay = (date, isFirstDayOfMonth = false) => {
+        const dateStr = date.toISOString().split('T')[0];
+        const followed = trackingData[dateStr];
+        const isTrackable = isTrackableDate(new Date(date));
+        const isPast = isPastDate(new Date(date));
+
+        return (
+            <div 
+                key={dateStr}
+                className={`border rounded-lg p-2 h-24 relative ${
+                    isToday(date) ? 'bg-purple-50' : ''
+                } ${!isTrackable ? 'bg-gray-50' : ''}`}
+                data-name={`day-${date.getDate()}`}
+            >
+                <div className="flex justify-between items-start">
+                    <span className={`text-sm ${isToday(date) ? 'font-bold' : ''}`}>
+                        {date.getDate()}
+                    </span>
+                    {isTrackable && isPast && (
+                        <div className="space-x-2">
+                            <button
+                                onClick={() => handleTrackDay(date, true)}
+                                className={`text-lg ${followed === true ? 'text-green-500' : 'text-gray-300'}`}
+                                title="Followed routine"
+                                data-name={`follow-btn-${date.getDate()}`}
+                            >
+                                <i className="fas fa-thumbs-up"></i>
+                            </button>
+                            <button
+                                onClick={() => handleTrackDay(date, false)}
+                                className={`text-lg ${followed === false ? 'text-red-500' : 'text-gray-300'}`}
+                                title="Did not follow routine"
+                                data-name={`not-follow-btn-${date.getDate()}`}
+                            >
+                                <i className="fas fa-thumbs-down"></i>
+                            </button>
+                        </div>
+                    )}
+                </div>
+                {showCoinAnimation === dateStr && (
+                    <div className="absolute bottom-2 left-2 text-sm text-yellow-600 animate-bounce">
+                        +1 🪙
+                    </div>
+                )}
+            </div>
+        );
     };
 
     return (
@@ -84,17 +154,22 @@ function RoutineTracker({ routinePair, onBack }) {
                         <i className="fas fa-arrow-left"></i>
                         Back to Dashboard
                     </button>
-                    <button
-                        onClick={() => setShowRoutine(!showRoutine)}
-                        className="text-purple-600 hover:text-purple-800 flex items-center gap-2"
-                        data-name="view-routine-button"
-                    >
-                        <i className={`fas fa-${showRoutine ? 'calendar' : 'list'}`}></i>
-                        {showRoutine ? 'View Calendar' : 'View Routine'}
-                    </button>
+                    <div className="flex flex-col items-end">
+                        <button
+                            onClick={() => setShowRoutine(!showRoutine)}
+                            className="text-purple-600 hover:text-purple-800 flex items-center gap-2 mb-2"
+                            data-name="view-routine-button"
+                        >
+                            <i className={`fas fa-${showRoutine ? 'calendar' : 'list'}`}></i>
+                            {showRoutine ? 'View Calendar' : 'View Routine'}
+                        </button>
+                        <div className="text-yellow-600 font-semibold flex items-center gap-1">
+                            <span>{coins}</span>
+                            <span>🪙</span>
+                        </div>
+                    </div>
                 </div>
 
-                {/* Rest of the component remains exactly the same */}
                 {showRoutine ? (
                     <div className="mb-6">
                         <h2 className="text-2xl font-bold mb-4">
@@ -153,6 +228,9 @@ function RoutineTracker({ routinePair, onBack }) {
                             <p className="text-gray-600">
                                 Track your progress by marking each day as followed or not followed
                             </p>
+                            <p className="text-sm text-gray-500 mt-1">
+                                Started tracking from {new Date(routinePair.createdAt).toLocaleDateString()}
+                            </p>
                         </div>
 
                         <div className="mb-6 flex items-center justify-between">
@@ -188,87 +266,16 @@ function RoutineTracker({ routinePair, onBack }) {
                             ))}
 
                             {getDaysInMonth(selectedMonth).map((date, index) => {
-                                const dateStr = date.toISOString().split('T')[0];
                                 const dayOfWeek = date.getDay();
-                                const followed = trackingData[dateStr];
 
-                                // Add empty cells for days before the first day of the month
                                 if (index === 0) {
                                     const emptyDays = Array.from({ length: dayOfWeek }, (_, i) => (
                                         <div key={`empty-${i}`} className="h-24"></div>
                                     ));
-                                    return [...emptyDays, 
-                                        <div 
-                                            key={dateStr}
-                                            className={`border rounded-lg p-2 h-24 ${
-                                                isToday(date) ? 'bg-purple-50' : ''
-                                            }`}
-                                            data-name={`day-${date.getDate()}`}
-                                        >
-                                            <div className="flex justify-between items-start">
-                                                <span className={`text-sm ${isToday(date) ? 'font-bold' : ''}`}>
-                                                    {date.getDate()}
-                                                </span>
-                                                {isPastDate(date) && (
-                                                    <div className="space-x-2">
-                                                        <button
-                                                            onClick={() => handleTrackDay(date, true)}
-                                                            className={`text-lg ${followed === true ? 'text-green-500' : 'text-gray-300'}`}
-                                                            title="Followed routine"
-                                                            data-name={`follow-btn-${date.getDate()}`}
-                                                        >
-                                                            <i className="fas fa-thumbs-up"></i>
-                                                        </button>
-                                                        <button
-                                                            onClick={() => handleTrackDay(date, false)}
-                                                            className={`text-lg ${followed === false ? 'text-red-500' : 'text-gray-300'}`}
-                                                            title="Did not follow routine"
-                                                            data-name={`not-follow-btn-${date.getDate()}`}
-                                                        >
-                                                            <i className="fas fa-thumbs-down"></i>
-                                                        </button>
-                                                    </div>
-                                                )}
-                                            </div>
-                                        </div>
-                                    ];
+                                    return [...emptyDays, renderDay(date, true)];
                                 }
 
-                                return (
-                                    <div 
-                                        key={dateStr}
-                                        className={`border rounded-lg p-2 h-24 ${
-                                            isToday(date) ? 'bg-purple-50' : ''
-                                        }`}
-                                        data-name={`day-${date.getDate()}`}
-                                    >
-                                        <div className="flex justify-between items-start">
-                                            <span className={`text-sm ${isToday(date) ? 'font-bold' : ''}`}>
-                                                {date.getDate()}
-                                            </span>
-                                            {isPastDate(date) && (
-                                                <div className="space-x-2">
-                                                    <button
-                                                        onClick={() => handleTrackDay(date, true)}
-                                                        className={`text-lg ${followed === true ? 'text-green-500' : 'text-gray-300'}`}
-                                                        title="Followed routine"
-                                                        data-name={`follow-btn-${date.getDate()}`}
-                                                    >
-                                                        <i className="fas fa-thumbs-up"></i>
-                                                    </button>
-                                                    <button
-                                                        onClick={() => handleTrackDay(date, false)}
-                                                        className={`text-lg ${followed === false ? 'text-red-500' : 'text-gray-300'}`}
-                                                        title="Did not follow routine"
-                                                        data-name={`not-follow-btn-${date.getDate()}`}
-                                                    >
-                                                        <i className="fas fa-thumbs-down"></i>
-                                                    </button>
-                                                </div>
-                                            )}
-                                        </div>
-                                    </div>
-                                );
+                                return renderDay(date);
                             })}
                         </div>
                     </div>
