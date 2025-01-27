@@ -28,7 +28,7 @@ function Navbar({ currentUser, onLogout, onUpdateUser }) {
                         <div data-name="user-nav" className="flex items-center gap-4">
                             <a 
                                 href="#dashboard" 
-                                className={`nav-link ${currentPath === '#dashboard' ? 'active' : ''}`}
+                                className={`nav-link ${currentPath.startsWith('#dashboard') || currentPath.includes('routine-tracker') ? 'active' : ''}`}
                                 data-name="dashboard-link"
                             >
                                 Dashboard

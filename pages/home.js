@@ -9,12 +9,12 @@ function Home() {
 
     return (
         <div data-name="home-page">
-            <section data-name="hero" className="hero-section text-white py-8">
+            <section data-name="hero" className="hero-section">
                 <div className="container mx-auto text-center">
-                    <h1 data-name="hero-title" className="text-5xl font-bold mb-4">
+                    <h1 data-name="hero-title" className="text-5xl font-bold mb-4 text-white">
                         Sweet Dreams Start with Cozy Routines
                     </h1>
-                    <p data-name="hero-subtitle" className="text-xl mb-6">
+                    <p data-name="hero-subtitle" className="text-xl mb-6 text-white">
                         Create personalized bedtime routines for the little ones using AI technology
                     </p>
                     <Button 

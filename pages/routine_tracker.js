@@ -1,9 +1,35 @@
 function RoutineTracker({ routinePair, onBack }) {
+    const storageKey = `routine-tracking-${routinePair.id}`;
     const [selectedMonth, setSelectedMonth] = React.useState(new Date());
-    const [trackingData, setTrackingData] = React.useState({});
+    const [trackingData, setTrackingData] = React.useState(() => {
+        try {
+            const saved = localStorage.getItem(storageKey);
+            return saved ? JSON.parse(saved) : {};
+        } catch (error) {
+            reportError(error);
+            return {};
+        }
+    });
     const [showRoutine, setShowRoutine] = React.useState(false);
-    const [coins, setCoins] = React.useState(0);
-    const [showCoinAnimation, setShowCoinAnimation] = React.useState(null);
+    const [stars, setStars] = React.useState(() => {
+        try {
+            const saved = localStorage.getItem(`${storageKey}-stars`);
+            return saved ? parseInt(saved, 10) : 0;
+        } catch (error) {
+            reportError(error);
+            return 0;
+        }
+    });
+
+    // Save tracking data and stars whenever they change
+    React.useEffect(() => {
+        try {
+            localStorage.setItem(storageKey, JSON.stringify(trackingData));
+            localStorage.setItem(`${storageKey}-stars`, stars.toString());
+        } catch (error) {
+            reportError(error);
+        }
+    }, [trackingData, stars, storageKey]);
 
     const getDaysInMonth = (date) => {
         const year = date.getFullYear();
@@ -17,22 +43,19 @@ function RoutineTracker({ routinePair, onBack }) {
             const dateStr = date.toISOString().split('T')[0];
             const wasFollowed = trackingData[dateStr];
             
-            // Only add coins if changing from not followed/undefined to followed
+            // Only add stars if changing from not followed/undefined to followed
             if (followed && !wasFollowed) {
-                setCoins(prev => prev + 1);
-                setShowCoinAnimation(dateStr);
-                setTimeout(() => setShowCoinAnimation(null), 1500);
+                setStars(prev => prev + 100);
             }
-            // Remove coin if changing from followed to not followed
+            // Remove stars if changing from followed to not followed
             else if (!followed && wasFollowed === true) {
-                setCoins(prev => Math.max(0, prev - 1));
+                setStars(prev => Math.max(0, prev - 100));
             }
 
             setTrackingData(prev => ({
                 ...prev,
                 [dateStr]: followed
             }));
-            // Here you would typically save this to a backend
         } catch (error) {
             reportError(error);
         }
@@ -133,9 +156,9 @@ function RoutineTracker({ routinePair, onBack }) {
                         </div>
                     )}
                 </div>
-                {showCoinAnimation === dateStr && (
-                    <div className="absolute bottom-2 left-2 text-sm text-yellow-600 animate-bounce">
-                        +1 🪙
+                {followed === true && (
+                    <div className="absolute bottom-2 left-2 text-sm text-yellow-600">
+                        +100 ✨
                     </div>
                 )}
             </div>
@@ -164,8 +187,8 @@ function RoutineTracker({ routinePair, onBack }) {
                             {showRoutine ? 'View Calendar' : 'View Routine'}
                         </button>
                         <div className="text-yellow-600 font-semibold flex items-center gap-1">
-                            <span>{coins}</span>
-                            <span>🪙</span>
+                            <span>{stars}</span>
+                            <span>✨</span>
                         </div>
                     </div>
                 </div>

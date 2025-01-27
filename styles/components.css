@@ -29,19 +29,14 @@
     color: #6b4ce6;
 }
 
-.nav-link.active[data-name="home-link"]::after {
-    transform: scaleX(1);
+/* Active state for dashboard */
+.nav-link.active[data-name="dashboard-link"] {
+    color: #6b4ce6;
 }
 
-/* Active state for dashboard and login - keeping them black */
-.nav-link.active[data-name="dashboard-link"],
+/* Active state for login */
 .nav-link.active[data-name="login-link"] {
-    color: inherit;
-}
-
-.nav-link.active[data-name="dashboard-link"]::after,
-.nav-link.active[data-name="login-link"]::after {
-    transform: scaleX(0);
+    color: #6b4ce6;
 }
 
 /* Dark mode overrides */
@@ -50,17 +45,14 @@
 }
 
 .dark .nav-link:hover,
-.dark .nav-link.active[data-name="home-link"] {
+.dark .nav-link.active[data-name="home-link"],
+.dark .nav-link.active[data-name="dashboard-link"],
+.dark .nav-link.active[data-name="login-link"] {
     color: #9c6bff;
 }
 
 .dark .nav-link::after {
     background-color: #9c6bff;
-}
-
-.dark .nav-link.active[data-name="dashboard-link"],
-.dark .nav-link.active[data-name="login-link"] {
-    color: #ffffff;
 }
 
 .dark .text-gray-800 {

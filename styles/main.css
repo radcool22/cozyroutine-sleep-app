@@ -1,15 +1,14 @@
 body {
     background-color: #f8f5ff;
     color: #2d1b69;
-    font-family: 'Arial';
+    font-family: 'Arial', sans-serif;
 }
 
 .hero-section {
-    background: linear-gradient(135deg, #9c6bff 0%, #6b4ce6 100%);
-    min-height: 50vh;
+    position: relative;
+    min-height: 70vh;
     display: flex;
     align-items: center;
-    position: relative;
     overflow: hidden;
 }
 
@@ -20,8 +19,10 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background: radial-gradient(circle at 30% 50%, rgba(156, 107, 255, 0.4) 0%, transparent 50%),
-                radial-gradient(circle at 70% 50%, rgba(107, 76, 230, 0.4) 0%, transparent 50%);
+    background-image: url('https://app.trickle.so/storage/public/images/usr_0a831a51e0000001/0de45d02-30b2-4309-960b-58f2847e8cc6.png');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.6;
     z-index: 1;
 }
 
