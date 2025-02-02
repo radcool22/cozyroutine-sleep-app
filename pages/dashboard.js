@@ -31,6 +31,7 @@ function Dashboard({ currentUser }) {
             };
 
             setRoutinePairs(prev => [newPair, ...prev]);
+            setSelectedPairId(newPair.id); // Auto-select the new routine
             setIsCreating(false);
         } catch (error) {
             reportError(error);
