@@ -15,7 +15,7 @@ function Home() {
                         Sweet Dreams Start with Cozy Routines
                     </h1>
                     <p data-name="hero-subtitle" className="text-xl mb-6 text-white">
-                        Create personalized bedtime routines for the little ones using AI technology
+                        Create personalized bedtime routines for children using AI technology and track their commitmments to it.
                     </p>
                     <Button 
                         onClick={handleGetStarted}
@@ -33,15 +33,15 @@ function Home() {
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div data-name="feature-card" className="p-6 bg-white rounded-lg shadow-md">
                             <h3 className="text-xl font-bold mb-3">AI-Powered Routines</h3>
-                            <p>Personalized schedules based on your child's needs</p>
+                            <p>Personalized schedules based on children's needs, including factors such as age, gender, and their current routines.</p>
                         </div>
                         <div data-name="feature-card" className="p-6 bg-white rounded-lg shadow-md">
                             <h3 className="text-xl font-bold mb-3">Child-Friendly</h3>
-                            <p>Designed with children in mind for better sleep habits</p>
+                            <p>Designed with feedback from children in mind for better sleep routine generation.</p>
                         </div>
                         <div data-name="feature-card" className="p-6 bg-white rounded-lg shadow-md">
-                            <h3 className="text-xl font-bold mb-3">Easy to Adjust</h3>
-                            <p>Modify routines as your child grows and needs change</p>
+                            <h3 className="text-xl font-bold mb-3">Reward-Based Tracking</h3>
+                            <p>Track children's routine with a fun reward system which gamifies following the sleep routine.</p>
                         </div>
                     </div>
                 </div>
@@ -54,19 +54,21 @@ function Home() {
                     </h2>
                     <div className="max-w-3xl mx-auto text-center">
                         <p className="text-lg mb-4">
-                            At Cozy Routine, we understand that every child is unique, and so should be their bedtime routine. 
-                            Founded by a team of child sleep specialists and AI experts, we're committed to helping parents 
-                            establish healthy sleep habits for their children.
+                        Introducing Cozy Routine, the ultimate sleep routine app for kids! 
+                        Designed with AI-powered personalization, this app creates the perfect bedtime schedule tailored to each child's needs. 
+                        With just a few simple inputs—such as age, sleep patterns, and bedtime habits—Cozy Routine generates a scientifically backed routine to help kids sleep better. 
+                        No more guessing what works best—this app takes the stress out of bedtime for parents while making it fun and engaging for kids.
                         </p>
                         <p className="text-lg mb-4">
-                            Our AI-powered platform takes into account your child's age, preferences, and current routine to 
-                            create a personalized sleep schedule that works for your family. We believe that better sleep leads 
-                            to happier, healthier children and more relaxed parents.
+                        But Cozy Routine is not just about schedules—it is about motivation too! 
+                        The built-in reward system encourages kids to stick to their bedtime routine by earning points and unlocking fun achievements. 
+                        Whether it is to brush their teeth on time, completing a bedtime story, or turning off screens early, the kids stay engaged through positive reinforcement. 
                         </p>
                         <p className="text-lg">
-                            With years of experience in child development and sleep science, our team has helped thousands of 
-                            families worldwide establish effective bedtime routines. We combine this expertise with cutting-edge 
-                            AI technology to provide you with the most personalized and effective sleep solutions.
+                        I am a 15-year-old developer, and I created Cozy Routine for my little sister who struggled with maintaining a healthy sleep schedule. 
+                        Seeing how much it helped her, I knew other families could benefit from it too. 
+                        Cozy Routine blends AI-driven insights with an interactive, reward-based system to create better sleep habits for kids while giving parents peace of mind. 
+                        Try it out and make bedtime a cozy, stress-free experience!
                         </p>
                     </div>
                 </div>
