@@ -1,8 +1,8 @@
 function CustomizationSettings({ onClose }) {
-    const { darkMode, toggleTheme } = React.useContext(ThemeContext);
+    const { darkMode, toggleTheme } =   (ThemeContext);
 
     return (
-        <div className="p-4" data-name="customization-settings">
+        <div className="p-4" data-name="cus tomization-settings">
             <div className="flex items-center justify-between">
                 <span className="text-sm">Dark Mode</span>
                 <button

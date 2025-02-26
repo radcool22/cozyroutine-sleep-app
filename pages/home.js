@@ -15,7 +15,7 @@ function Home() {
                         Sweet Dreams Start with Cozy Routines
                     </h1>
                     <p data-name="hero-subtitle" className="text-xl mb-6 text-white">
-                        Create personalized bedtime routines for children using AI technology and track their commitmments to it.
+                        Create personalized bedtime routines for children using AI technology and track their commitments to it.
                     </p>
                     <Button 
                         onClick={handleGetStarted}
